@@ -1,0 +1,404 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+#app {
+    max-width: 1900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.dashboard-header {
+    background: linear-gradient(135deg, #1a2980, #26d0ce);
+    color: white;
+    padding: 24px 30px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.dashboard-header h1 {
+    font-size: 26px;
+    margin-bottom: 18px;
+    font-weight: 600;
+}
+
+.header-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 12px 20px;
+    min-width: 130px;
+    backdrop-filter: blur(5px);
+}
+
+.stat-card .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.stat-card .stat-label {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.stat-card.sold .stat-value { color: #7CFC9A; }
+.stat-card.unsold .stat-value { color: #FFB3B3; }
+.stat-card.revenue .stat-value { color: #FFE082; }
+.stat-card.discount .stat-value { color: #FF9E80; }
+
+/* Sections */
+section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+section h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #1a2980;
+}
+
+.hint {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+/* Второй ряд фильтров (этаж, комнаты, планировка, площадь, вид) */
+.controls-filters {
+    margin-top: 4px;
+    gap: 16px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+select, input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: #1a2980;
+}
+
+/* Legend */
+.legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+/* Main chart */
+.main-chart-wrap {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+#mainChart {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+#mainChart svg {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Side manager chart (appears in "По менеджеру" mode) */
+#managerSideChart {
+    flex: 0 0 auto;
+    width: 360px;
+    background: #fafbfc;
+    border: 1px solid #e3e6ea;
+    border-radius: 10px;
+    padding: 14px;
+}
+
+#managerSideChart svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Charts grid */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.chart-card.wide {
+    grid-column: 1 / -1;
+}
+
+.chart-card h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #1a2980;
+}
+
+.chart-card svg {
+    width: 100%;
+    height: auto;
+}
+
+/* Manager tabs */
+.manager-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.manager-tabs button {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.manager-tabs button:hover {
+    background: #f0f2f5;
+}
+
+.manager-tabs button.active {
+    background: #1a2980;
+    color: white;
+    border-color: #1a2980;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1000;
+    max-width: 280px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.tooltip .tt-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+/* Table */
+.table-section h2 {
+    margin-bottom: 16px;
+}
+
+.table-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.table-controls input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+}
+
+th {
+    background: #f8f9fa;
+    position: sticky;
+    top: 0;
+    font-weight: 600;
+    color: #555;
+}
+
+tr:hover {
+    background: #f8f9fa;
+}
+
+.badge {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-sold {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-unsold {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Продажи по параметрам (горизонтальные стеки) */
+.breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.breakdown-card {
+    background: #fafbfc;
+    border: 1px solid #e3e6ea;
+    border-radius: 10px;
+    padding: 14px;
+}
+
+.breakdown-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1a2980;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.breakdown-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.breakdown-label {
+    width: 74px;
+    flex-shrink: 0;
+    font-size: 12px;
+    color: #555;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.breakdown-bar {
+    flex: 1;
+    display: flex;
+    height: 14px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.breakdown-seg {
+    height: 100%;
+}
+
+.breakdown-seg.sold {
+    background: #2ecc71;
+}
+
+.breakdown-seg.unsold {
+    background: #e74c3c;
+}
+
+.breakdown-value {
+    width: 92px;
+    flex-shrink: 0;
+    font-size: 11px;
+    color: #666;
+    text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    .chart-card.wide {
+        grid-column: 1;
+    }
+    .header-stats {
+        flex-direction: column;
+    }
+}
