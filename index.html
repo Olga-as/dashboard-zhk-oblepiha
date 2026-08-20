@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продажи в ЖК «Облепиха»</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Основной дашборд: схема дома -->
+        <section class="main-dashboard">
+            <h2>Продажи в ЖК «Облепиха»</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Продажи:</label>
+                    <select v-model="colorMode" @change="renderMainChart">
+                        <option value="status">по количеству</option>
+                        <option value="speed">по скорости продаж</option>
+                        <option value="price">по цене продажи</option>
+                        <option value="discount">по скидке</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Месяц:</label>
+                    <select v-model="filterMonth" @change="renderAll">
+                        <option value="all">Все месяцы</option>
+                        <option v-for="m in months" :key="m.key" :value="m.key">{{ m.label }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="controls controls-filters">
+                <div class="control-group">
+                    <label>Этаж:</label>
+                    <select v-model="filterFloor" @change="renderAll">
+                        <option value="all">Все</option>
+                        <option v-for="f in floorOptions" :key="f" :value="f">{{ f }}</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Комнат:</label>
+                    <select v-model="filterRooms" @change="renderAll">
+                        <option value="all">Все</option>
+                        <option v-for="r in roomOptions" :key="r" :value="r">{{ r }}</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Планировка:</label>
+                    <select v-model="filterPlan" @change="renderAll">
+                        <option value="all">Все</option>
+                        <option v-for="p in planOptions" :key="p" :value="p">{{ p }}</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Площадь:</label>
+                    <select v-model="filterArea" @change="renderAll">
+                        <option value="all">Все</option>
+                        <option v-for="a in areaOptions" :key="a" :value="a">{{ a }}</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Вид из окна:</label>
+                    <select v-model="filterView" @change="renderAll">
+                        <option value="all">Все</option>
+                        <option v-for="v in viewOptions" :key="v" :value="v">{{ v }}</option>
+                    </select>
+                </div>
+                <div class="legend" id="mainLegend"></div>
+            </div>
+            <div class="main-chart-wrap">
+                <div id="mainChart"></div>
+                <div id="managerDynamics"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
