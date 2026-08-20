@@ -1,0 +1,372 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff;
+    color: #333;
+    line-height: 1.6;
+}
+
+#app {
+    max-width: 2500px;
+    margin: 0 auto;
+    padding: 20px 80px;
+}
+
+/* Sections */
+section {
+    background: transparent;
+    border-radius: 0;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: none;
+}
+
+section h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #1a2980;
+}
+
+.hint {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+/* Второй ряд фильтров (этаж, комнаты, планировка, площадь, вид) */
+.controls-filters {
+    margin-top: 4px;
+    gap: 16px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+select, input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: #1a2980;
+}
+
+/* Legend */
+.legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+/* Main chart */
+.main-chart-wrap {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+#mainChart {
+    flex: 1 1 1300px;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+#mainChart svg {
+    display: block;
+    margin: 0;
+}
+
+/* Динамика выручки по менеджерам (компактная таблица справа, без фона-плашки) */
+#managerDynamics {
+    flex: 0 0 auto;
+    width: 420px;
+    font-size: 12px;
+    margin-left: -350px;
+}
+
+/* На узких экранах (меньше 1900px) правая часть с фактоидами и динамикой
+   переносится под график ЖК. Блок сохраняет фиксированную ширину (не растягивается
+   на весь экран), отрицательный отступ убирается, чтобы не улетать за левый край */
+@media (max-width: 1900px) {
+    #mainChart {
+        flex: 1 1 100%;
+    }
+    #managerDynamics {
+        flex: 0 0 auto;
+        width: 420px;
+        margin-left: 0;
+    }
+}
+
+#managerDynamics .md-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a2980;
+    margin-bottom: 8px;
+}
+
+#managerDynamics .md-table {
+    width: 100%;
+}
+
+#managerDynamics .md-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0;
+    border-bottom: 1px solid #eef0f3;
+}
+
+#managerDynamics .md-row:last-child {
+    border-bottom: none;
+}
+
+#managerDynamics .md-header {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000;
+    border-bottom: 2px solid #e2e6ec;
+}
+
+#managerDynamics .md-name {
+    width: 62px;
+    flex: 0 0 auto;
+    font-weight: 600;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+#managerDynamics .md-chart {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#managerDynamics .md-chart svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+#managerDynamics .md-cell {
+    flex: 0 0 auto;
+    width: 52px;
+    text-align: right;
+    font-size: 12px;
+    color: #333;
+}
+
+/* Кликабельное имя менеджера: курсор-палец + ховер-подсветка строки */
+#managerDynamics .md-clickable {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin-left: -4px;
+    transition: background-color 0.15s ease;
+}
+
+#managerDynamics .md-row:hover .md-clickable {
+    background-color: #eef2fb;
+}
+
+/* Активное состояние: выбранный менеджер остаётся подсвеченным */
+#managerDynamics .md-clickable.md-selected {
+    background-color: #dbe4f7;
+    color: #1a2980;
+    font-weight: 700;
+}
+
+/* Интерактивные фактоиды над таблицей динамики (без плашек, на белом фоне) */
+#managerDynamics .md-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    margin-bottom: 14px;
+}
+
+#managerDynamics .md-fact {
+    line-height: 1.35;
+}
+
+#managerDynamics .md-fact-label {
+    font-size: 12px;
+    color: #000;
+}
+
+#managerDynamics .md-fact-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #000;
+    white-space: nowrap;
+}
+
+#managerDynamics .md-fact-sub {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000;
+}
+
+/* График «Динамика выручки» под таблицей динамики по менеджерам */
+#managerDynamics .rd-wrap {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #eef0f3;
+}
+
+#managerDynamics .rd-wrap svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+#managerDynamics .rd-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #333;
+}
+
+#managerDynamics .rd-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#managerDynamics .rd-swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+}
+
+/* Charts grid */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.chart-card.wide {
+    grid-column: 1 / -1;
+}
+
+.chart-card h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #1a2980;
+}
+
+.chart-card svg {
+    width: 100%;
+    height: auto;
+}
+
+/* Manager tabs */
+.manager-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.manager-tabs button {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.manager-tabs button:hover {
+    background: #f0f2f5;
+}
+
+.manager-tabs button.active {
+    background: #1a2980;
+    color: white;
+    border-color: #1a2980;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1000;
+    max-width: 280px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.tooltip .tt-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    .chart-card.wide {
+        grid-column: 1;
+    }
+    .header-stats {
+        flex-direction: column;
+    }
+}
